@@ -1,0 +1,16 @@
+Installation:
+
+Install the amp file and go to http://localhost:8080/alfresco/service/api/javascript/service. There you can
+enable the service so it listens on default port 6790.
+
+Usage:
+
+_ telnet localhost 6790
+_ try some alfresco javascript
+
+Have fun
+Andreas
+
+Andreas Steffan
+http://www.contentreich.de
+http://www.contentreich.de/using-an-embedded-repl-to-accelerate-development-example-alfresco

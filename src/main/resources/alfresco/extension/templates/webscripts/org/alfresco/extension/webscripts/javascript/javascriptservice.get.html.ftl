@@ -1,0 +1,1 @@
+<#include "/org/alfresco/extension/webscripts/javascript/javascriptservice-form.ftl"/>

@@ -1,0 +1,46 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:lang="http://www.springframework.org/schema/lang"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-2.0.xsd http://www.springframework.org/schema/lang http://www.springframework.org/schema/lang/spring-lang-2.0.xsd">
+
+	<import resource="classpath:scripting-tools-context.xml" />
+
+	<bean
+		id="webscript.org.alfresco.extension.webscripts.javascript.javascriptservice.get"
+		class="org.alfresco.extension.scripting.webscripts.JavascriptServiceGet"
+		parent="webscript">
+		<property name="javascriptShellService" ref="javascriptShellService" />
+	</bean>
+
+	<bean
+		id="webscript.org.alfresco.extension.webscripts.javascript.javascriptservice.post"
+		class="org.alfresco.extension.scripting.webscripts.JavascriptServicePost"
+		parent="webscript">
+		<property name="javascriptShellService" ref="javascriptShellService" />
+	</bean>
+
+	<!-- deploymentService ERROR org.alfresco.error.AlfrescoRuntimeException: 
+		11080010 A transaction has not be started for method 'toString' on java.lang.Object 
+		at org.alfresco.repo.transaction.CheckTransactionAdvice.invoke (CheckTransactionAdvice.java:44) 
+		at org.springframework.aop.framework.ReflectiveMethodInvocation.proceed (ReflectiveMethodInvocation.java:172) 
+		at org.springframework.aop.framework.JdkDynamicAopProxy.invoke (JdkDynamicAopProxy.java:202) 
+		at $Proxy83.toString (Unknown Source) at java_lang_String$valueOf.call (Unknown 
+		Source) at java_lang_String$valueOf.call (Unknown Source) at java_lang_Runnable$run.call 
+        Have to overwrite -->
+	<bean id="checkTxnAdvice"
+		class="org.alfresco.extension.scripting.repo.transaction.FriendlyCheckTransactionAdvice" />
+
+    <bean id="alfrescoJavascriptInitializer" class="org.alfresco.extension.scripting.javascript.JavascriptHelper">
+		<property name="serviceRegistry" ref="ServiceRegistry" />
+		<property name="repositoryHelper" ref="repositoryHelper" />
+    	<property name="javaScriptProcessor" ref="javaScriptProcessor"/>
+    </bean>
+
+	<bean id="javascriptShellService" class="de.contentreich.scripting.service.JavascriptShellService">
+	    <property name="javascriptObjectInitializer" ref="alfrescoJavascriptInitializer"/>
+		<property name="port" value="${scripting.tools.javascript.shell.service.port}" />
+		<property name="launchAtStart" value="${scripting.tools.javascript.shell.service.launch.at.start}" />
+	</bean>
+
+
+</beans>

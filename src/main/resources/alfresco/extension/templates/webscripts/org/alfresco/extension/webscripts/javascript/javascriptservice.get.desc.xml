@@ -1,0 +1,6 @@
+<webscript>
+  <shortname>Javascript Service</shortname>
+  <description>Javascript Service</description>
+  <url>/api/javascript/service</url>
+  <authentication>admin</authentication>
+</webscript>
